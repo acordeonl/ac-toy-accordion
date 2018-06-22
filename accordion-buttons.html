@@ -1,0 +1,162 @@
+<imports >
+    <link rel="import" href="../polymer/polymer-element.html">
+    <link rel="import" href="../ac-view/ac-led-group.html">
+    <link rel="import" href="../ac-view/view-audio.html">
+    <link rel="import" href="../local-dom/local-dom.html">
+    <link rel="import" href="./accordion-button.html">
+</imports>
+
+<dom-module id="accordion-buttons">
+    <template>
+        <style>
+            local-dom {
+                height: 100vh;
+                width: 100%;
+                @apply --layout-center;
+                @apply --layout-justified;
+                @apply --layout-horizontal;
+            }
+            .col1 {
+                height: 70vh;
+                margin: 0;
+                padding: 0;
+                @apply --layout-justified;
+            }
+            .col2 {
+                height: 92vh;
+                padding: 0;
+                @apply --layout-justified;
+            }
+            [mobile] .col2 {
+                padding: 0;
+            }
+            [tablet] .col2 {
+                padding: 0;
+            }
+            .vertical {
+                @apply --layout-vertical;
+            }
+            .reversedVertical {
+                @apply --layout-vertical-reverse;
+            }
+            .reversedHorizontal {
+                @apply --layout-horizontal-reverse;
+            }
+            .horizontal {
+                @apply --layout-horizontal;
+            }
+        </style>
+        <!-- local DOM -->
+        <view-audio channel='0'></view-audio>
+        <local-dom class$="{{_computeRotation(___acV_rotation)}}" mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
+            <div class$="col1 {{_computeColRotation(___acV_rotation)}}">
+                <accordion-button acLed ac-id='0' channel='0'></accordion-button>
+                <accordion-button acLed ac-id='1' channel='0'></accordion-button>
+                <accordion-button acLed ac-id='2' channel='0'></accordion-button>
+                <accordion-button acLed ac-id='3' channel='0'></accordion-button>
+                <accordion-button acLed ac-id='4' channel='0'></accordion-button>
+                <accordion-button acLed ac-id='5' channel='0'></accordion-button>
+                <accordion-button acLed ac-id='6' channel='0'></accordion-button>
+            </div>
+        </local-dom>
+    </template>
+    <script>
+        class AccordionButtons extends ACLedGroup {
+            static get is() { return 'accordion-buttons'; }
+            static get observers() {return [
+            ]}
+            static get properties() {return {
+                opening: {type: Boolean,value: false},
+                keysDown: {type: Array,value: []}
+            }}
+            constructor() {
+                super();
+            }
+            _setNoteNames () {
+                var nodeList = Polymer.dom(this.root).querySelectorAll('ACCORDION-BUTTON');
+                for (var i = 0; i < nodeList.length; i++) {
+                    if(i === 0) {
+                        nodeList[i].note1 = this.___acV_getMIDINoteName(60) ; 
+                        nodeList[i].note2 = this.___acV_getMIDINoteName(62) ; 
+                    }
+                    if(i === 1) {
+                        nodeList[i].note1 = this.___acV_getMIDINoteName(64) ; 
+                        nodeList[i].note2 = this.___acV_getMIDINoteName(65) ; 
+                    }
+                    if(i === 2) {
+                        nodeList[i].note1 = this.___acV_getMIDINoteName(67) ; 
+                        nodeList[i].note2 = this.___acV_getMIDINoteName(69) ; 
+                    }
+                    if(i === 3) {
+                        nodeList[i].note1 = this.___acV_getMIDINoteName(72) ; 
+                        nodeList[i].note2 = this.___acV_getMIDINoteName(71) ; 
+                    }
+                    if(i === 4) {
+                        nodeList[i].note1 = this.___acV_getMIDINoteName(76) ; 
+                        nodeList[i].note2 = this.___acV_getMIDINoteName(74) ; 
+                    }
+                    if(i === 5) {
+                        nodeList[i].note1 = this.___acV_getMIDINoteName(79) ; 
+                        nodeList[i].note2 = this.___acV_getMIDINoteName(77) ; 
+                    }
+                    if(i === 6) {
+                        nodeList[i].note1 = this.___acV_getMIDINoteName(83) ; 
+                        nodeList[i].note2 = this.___acV_getMIDINoteName(81) ; 
+                    }
+                    
+                }
+            }
+        // ------------------- acLed Action -------------------
+            ___acV_mapMIDIEventToAcLedId (channel, midiNote,origin,initiator) {
+                if(origin === 'playback' && initiator === 'play')
+                    midiNote += this.___acV_recordingPitchDiff ;
+                if(midiNote === 60 || midiNote === 62) 
+                    return [0] ; 
+                if(midiNote === 64 || midiNote === 65) 
+                    return [1] ; 
+                if(midiNote === 67 || midiNote === 69) 
+                    return [2] ; 
+                if(midiNote === 71 || midiNote === 72) 
+                    return [3] ; 
+                if(midiNote === 74 || midiNote === 76) 
+                    return [4] ; 
+                if(midiNote === 77 || midiNote === 79) 
+                    return [5] ; 
+                if(midiNote === 81 || midiNote === 83) 
+                    return [6] ; 
+                return [] ;
+            }
+            ___acV_mapMIDIEventToAcLedState (channel, midiNote,origin,initiator) {
+                if(origin === 'playback' && initiator === 'play')
+                    midiNote += this.___acV_recordingPitchDiff ;
+                if(midiNote === 60 || midiNote === 64 || midiNote === 67 || midiNote === 72 ||  midiNote === 76 || midiNote === 79 || midiNote === 83) 
+                    return [1] ; 
+                if(midiNote === 62 || midiNote === 65 || midiNote === 69 || midiNote === 71 ||  midiNote === 74 || midiNote === 77 || midiNote === 81) 
+                    return [2] ; 
+                return [] ; 
+            }
+            ___acV_midiEventToAudioNote (channel, midiNote, origin,initiator) {
+                if (origin.startsWith('___midi_instrument')  || initiator ==='record')
+                    return midiNote ;
+                return this.___acV_midiEventToAudioNoteDefault(channel, midiNote, origin);
+            }
+        // ------------------- GUI -------------------
+            _computeRotation (rotation) {
+                if (rotation)
+                    return "reversedHorizontal";
+                return "horizontal";
+            }
+            _computeColRotation (rotation) {
+                if (rotation)
+                    return "reversedVertical";
+                return "vertical";
+            }
+        // ------------------- Setup -------------------
+            ready() {
+                super.ready() ;
+                this._setNoteNames();
+            }
+        }
+        customElements.define('accordion-buttons', AccordionButtons);
+    </script>
+</dom-module>

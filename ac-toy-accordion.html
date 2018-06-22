@@ -1,0 +1,96 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../ac-view/ac-view.html">
+<link rel="import" href="./accordion-buttons.html">
+<dom-module id="ac-toy-accordion">
+    <template>
+        <style default-theme>
+            :host {
+                --paper-icon-color: #e2e4e1;
+                --paper-input-container-focus-color: var(--theme-color1);
+                --paper-input-container-color: var(--content-color4);
+                --paper-input-container-input: {
+                    color: red;
+                    font-size: 3.6vh;
+                    font-weight: 300;
+                };
+                --paper-input-container-label: {
+                    color: var(--content-color);
+                    font-size: 16px;
+                    font-weight: 300;
+                };
+                --paper-input-container-input: {
+                    color: var(--content-color);
+                    font-size: 19px;
+                    font-weight: 300;
+                };
+                --iron-autogrow-textarea: {
+                    color: var(--content-color);
+                    font-size: 19px;
+                    font-weight: 300;
+                };
+                --justify-text: {
+                    text-align: justify;
+                    text-justify: inter-word;
+                };
+                color: var(--content-color);
+            }
+        </style>
+        <style>
+            local-dom {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                width: 100%;
+                @apply --layout-horizontal;
+                @apply --layout-around-justified;
+            }
+            [wrapper] {
+                width: 100vw;
+                @apply --layout-horizontal;
+                @apply --layout-around-justified;
+            }
+            .reversed {
+                @apply --layout-horizontal-reverse;
+            }
+            .horizontal {
+                @apply --layout-horizontal;
+            }
+            .withDisplay {
+                display: flex;
+            }
+            .noDisplay {
+                display: none;
+            }
+        </style>
+        <div wrapper class$="{{_computeRotation(___acV_rotation)}}">
+            <accordion-buttons acLedGroup name='toy-accordion'>
+            </accordion-buttons>
+        </div>
+    </template>
+    <script>
+        class ACToyAccordion extends ACView {
+            static get is() { return 'ac-toy-accordion'; }
+            static get properties() {return {}}
+            constructor() {
+                super();
+            }
+            ___acV_handleMIDIEvent (e) {
+                this.shadowRoot.querySelector('ACCORDION-BUTTONS').___acV_onMIDIEvent(e);
+            }
+            _computeRotation (rotation) {
+                if (rotation)
+                    return "reversed";
+                return "horizontal";
+            }
+            ready() {
+                super.ready() ;
+                this.___acV_setName('toy-accordion') ; 
+                this.___acV_setDefaultReverb(30);
+                this.___acV_canRotate(true) ; 
+                this.___acV_setDefaultViewPitch(-1); 
+                this.___acV_canDisplayNotes(true) ; 
+            }
+        }
+        customElements.define('ac-toy-accordion', ACToyAccordion);
+    </script>
+</dom-module>

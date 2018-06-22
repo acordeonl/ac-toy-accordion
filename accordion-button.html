@@ -1,0 +1,95 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../ac-view/ac-led.html">
+
+<dom-module id="accordion-button">
+    <template>
+        <style accordionButton>
+            [circle] {
+                position: absolute;
+                background-color: var(--content-background,#fafafa);
+                border-radius: 100%;
+            }
+            [circle]:hover {
+                cursor: pointer;
+            }
+            [shadow]{
+                position: absolute;
+                margin-top: 0.8vh;
+                background-color: var(--ac-led-shadow,gray);
+            }
+        </style>
+        <style acLed>
+            [acLed] {
+                position: absolute;
+                border-radius: 100%;
+                background-color:purple;
+            }
+            /* override default*/
+            /*[note]{
+                position: absolute;
+                font-size: 20px ;
+                margin-left: 10px ;
+                color:red ;
+            }*/
+            [noteNames] {
+                @apply --layout-center;
+                @apply --layout-center-justified;
+                @apply --layout-horizontal;
+                @apply --layout-vertical;
+                height:100%;
+                width:100%;
+                margin-left: 2px ;
+                margin-top: 1px ;
+                color: var(--content-color2, gray);
+            }
+        </style>
+        <div style$='width:[[buttonWidth]]; height:[[buttonHeight]];'>
+            <div circle shadow style$='width:[[buttonWidth]]; height:[[buttonHeight]];'></div>
+            <div circle style$='width:[[buttonWidth]]; height:[[buttonHeight]];'>
+                <div noteNames style$='display:{{_computeDisplay(___acV_displayingNotes)}} ;'>
+                    [[note2]]
+                    </br>
+                    [[note1]]
+                </div>
+            </div>
+            <div acLed style$='width:[[buttonWidth]]; height:[[buttonHeight]];'>
+                <!-- override default -->
+                <!-- <div note>
+                    F#
+                </div> -->
+            </div>
+        </div>
+    </template>
+    <script>
+        class AccordionButton extends ACLed {
+            static get is() { return 'accordion-button'; }
+            static get properties() {return {
+                buttonWidth:{type:String,value:'6.8vh'},
+                buttonHeight:{type:String,value:'6.8vh'},
+                isBass:{type:Boolean,value:false}
+            }}
+            constructor() {
+                super();
+            }
+            _computeDisplay (value) {
+                if (value) {
+                    return 'flex' ; 
+                }
+                return 'none'
+            }
+            ___acV_getMIDINoteName(note,channel){
+                if (channel === 2) 
+                    return '' ;
+                return super.___acV_getMIDINoteName(note,channel) ; 
+            }
+            ready() {
+                super.ready() ;
+                if(this.isBass){
+                    this.buttonWidth = '5.4vh';
+                    this.buttonHeight = '5.4vh';
+                }
+            }
+        }
+        customElements.define('accordion-button', AccordionButton);
+    </script>
+</dom-module>
