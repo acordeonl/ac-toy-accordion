@@ -3,10 +3,10 @@
     <link rel="import" href="../ac-view/ac-led-group.html">
     <link rel="import" href="../ac-view/view-audio.html">
     <link rel="import" href="../local-dom/local-dom.html">
-    <link rel="import" href="./accordion-button.html">
+    <link rel="import" href="./toy-accordion-button.html">
 </imports>
 
-<dom-module id="accordion-buttons">
+<dom-module id="toy-accordion-buttons">
     <template>
         <style>
             local-dom {
@@ -50,19 +50,19 @@
         <view-audio channel='0'></view-audio>
         <local-dom class$="{{_computeRotation(___acV_rotation)}}" mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div class$="col1 {{_computeColRotation(___acV_rotation)}}">
-                <accordion-button acLed ac-id='0' channel='0'></accordion-button>
-                <accordion-button acLed ac-id='1' channel='0'></accordion-button>
-                <accordion-button acLed ac-id='2' channel='0'></accordion-button>
-                <accordion-button acLed ac-id='3' channel='0'></accordion-button>
-                <accordion-button acLed ac-id='4' channel='0'></accordion-button>
-                <accordion-button acLed ac-id='5' channel='0'></accordion-button>
-                <accordion-button acLed ac-id='6' channel='0'></accordion-button>
+                <toy-accordion-button acLed ac-id='0' channel='0'></toy-accordion-button>
+                <toy-accordion-button acLed ac-id='1' channel='0'></toy-accordion-button>
+                <toy-accordion-button acLed ac-id='2' channel='0'></toy-accordion-button>
+                <toy-accordion-button acLed ac-id='3' channel='0'></toy-accordion-button>
+                <toy-accordion-button acLed ac-id='4' channel='0'></toy-accordion-button>
+                <toy-accordion-button acLed ac-id='5' channel='0'></toy-accordion-button>
+                <toy-accordion-button acLed ac-id='6' channel='0'></toy-accordion-button>
             </div>
         </local-dom>
     </template>
     <script>
-        class AccordionButtons extends ACLedGroup {
-            static get is() { return 'accordion-buttons'; }
+        class ToyAccordionButtons extends ACLedGroup {
+            static get is() { return 'toy-accordion-buttons'; }
             static get observers() {return [
             ]}
             static get properties() {return {
@@ -73,7 +73,7 @@
                 super();
             }
             _setNoteNames () {
-                var nodeList = Polymer.dom(this.root).querySelectorAll('ACCORDION-BUTTON');
+                var nodeList = Polymer.dom(this.root).querySelectorAll('TOY-ACCORDION-BUTTON');
                 for (var i = 0; i < nodeList.length; i++) {
                     if(i === 0) {
                         nodeList[i].note1 = this.___acV_getMIDINoteName(60) ; 
@@ -157,6 +157,6 @@
                 this._setNoteNames();
             }
         }
-        customElements.define('accordion-buttons', AccordionButtons);
+        customElements.define('toy-accordion-buttons', ToyAccordionButtons);
     </script>
 </dom-module>

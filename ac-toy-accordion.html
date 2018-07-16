@@ -1,6 +1,6 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../ac-view/ac-view.html">
-<link rel="import" href="./accordion-buttons.html">
+<link rel="import" href="./toy-accordion-buttons.html">
 <dom-module id="ac-toy-accordion">
     <template>
         <style default-theme>
@@ -63,8 +63,8 @@
             }
         </style>
         <div wrapper class$="{{_computeRotation(___acV_rotation)}}">
-            <accordion-buttons acLedGroup name='toy-accordion'>
-            </accordion-buttons>
+            <toy-accordion-buttons acLedGroup name='toy-accordion'>
+            </toy-accordion-buttons>
         </div>
     </template>
     <script>
@@ -75,7 +75,7 @@
                 super();
             }
             ___acV_handleMIDIEvent (e) {
-                this.shadowRoot.querySelector('ACCORDION-BUTTONS').___acV_onMIDIEvent(e);
+                this.shadowRoot.querySelector('TOY-ACCORDION-BUTTONS').___acV_onMIDIEvent(e);
             }
             _computeRotation (rotation) {
                 if (rotation)
